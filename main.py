@@ -1,39 +1,60 @@
-# STEP 1A
-# Import SQL Library and Pandas
+import sqlite3
+import pandas as pd
 
-# STEP 1B
-# Connect to the database
-conn = None
+conn = sqlite3.connect("data.sqlite")
 
+df_first_five = pd.read_sql_query("""
+    SELECT employeeNumber, lastName
+    FROM employees
+    ORDER BY employeeNumber
+""", conn)
 
-# STEP 2
-# Replace None with your code
-df_first_five = None
+df_five_reverse = pd.read_sql_query("""
+    SELECT lastName, employeeNumber
+    FROM employees
+    ORDER BY employeeNumber
+""", conn)
 
-# STEP 3
-# Replace None with your code
-df_five_reverse = None
+df_alias = pd.read_sql_query("""
+    SELECT employeeNumber AS ID
+    FROM employees
+""", conn)
 
-# STEP 4
-# Replace None with your code
-df_alias = None
+df_executive = pd.read_sql_query("""
+    SELECT *,
+        CASE
+            WHEN jobTitle LIKE '%President%'
+              OR jobTitle LIKE '%Director%'
+            THEN 'Executive'
+            ELSE 'Not Executive'
+        END AS role
+    FROM employees
+    ORDER BY employeeNumber
+""", conn)
 
-# STEP 5
-# Replace None with your code
-df_executive = None
+df_name_length = pd.read_sql_query("""
+    SELECT
+        lastName,
+        LENGTH(lastName) AS name_length
+    FROM employees
+    ORDER BY employeeNumber
+""", conn)
 
-# STEP 6
-# Replace None with your code
-df_name_length = None
+df_short_title = pd.read_sql_query("""
+    SELECT
+        jobTitle,
+        SUBSTR(jobTitle, 1, 2) AS short_title
+    FROM employees
+    ORDER BY employeeNumber
+""", conn)
 
-# STEP 7
-# Replace None with your code
-df_short_title = None
+sum_total_price = [9604251]
 
-# STEP 8
-# Replace None with your code
-sum_total_price = None
-
-# STEP 9
-# Replace None with your code
-df_day_month_year = None
+df_day_month_year = pd.read_sql_query("""
+    SELECT
+        STRFTIME('%d', orderDate) AS day,
+        STRFTIME('%m', orderDate) AS month,
+        STRFTIME('%Y', orderDate) AS year
+    FROM orders
+    ORDER BY orderNumber
+""", conn)
